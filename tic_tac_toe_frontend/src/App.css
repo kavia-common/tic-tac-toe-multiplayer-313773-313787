@@ -1,104 +1,218 @@
-/* CSS Variables for Theme Management */
+/* Theme variables (light / modern, blue-cyan accents) */
 :root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
-}
+  --bg: #f9fafb;
+  --surface: #ffffff;
+  --text: #111827;
+  --muted: #64748b;
 
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --primary: #3b82f6; /* blue */
+  --accent: #06b6d4; /* cyan */
+  --danger: #ef4444;
+
+  --border: rgba(15, 23, 42, 0.12);
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  --radius: 18px;
+
+  --square-bg: #ffffff;
+  --square-hover: rgba(59, 130, 246, 0.08);
+  --square-active: rgba(6, 182, 212, 0.14);
+  --focus: rgba(59, 130, 246, 0.35);
 }
 
 .App {
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 20% 10%, rgba(59, 130, 246, 0.14), transparent 60%),
+    radial-gradient(900px 600px at 85% 30%, rgba(6, 182, 212, 0.12), transparent 60%),
+    var(--bg);
+  color: var(--text);
+}
+
+/* Layout */
+.ttt-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px 16px;
+}
+
+.ttt-card {
+  width: min(520px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+
+.ttt-header {
   text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-bottom: 18px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.ttt-title {
+  margin: 0;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
-
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
-}
-
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+.ttt-subtitle {
+  margin: 8px 0 0;
+  color: var(--muted);
   font-size: 14px;
+}
+
+/* Status */
+.ttt-status {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0 18px;
+}
+
+.ttt-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.06));
+  color: var(--text);
   font-weight: 600;
+  font-size: 14px;
+}
+
+.ttt-status-pill.is-x {
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.ttt-status-pill.is-o {
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.12);
+}
+
+.ttt-status-pill.is-winner {
+  border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.18);
+}
+
+.ttt-status-pill.is-draw {
+  border-color: rgba(100, 116, 139, 0.35);
+  box-shadow: 0 0 0 4px rgba(100, 116, 139, 0.14);
+}
+
+/* Board */
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.03), rgba(15, 23, 42, 0.01));
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.ttt-square {
+  appearance: none;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: var(--square-bg);
+  border-radius: 14px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  display: grid;
+  place-items: center;
+
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.08s ease, background-color 0.15s ease, box-shadow 0.15s ease,
+    border-color 0.15s ease;
+  user-select: none;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.ttt-square:hover {
+  background: var(--square-hover);
+  border-color: rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.ttt-square:active {
+  transform: translateY(0px);
+  background: var(--square-active);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.ttt-square:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus);
+}
+
+.ttt-square:disabled {
+  cursor: default;
+  opacity: 0.95;
+}
+
+.ttt-square-value {
+  font-size: clamp(40px, 6vw, 56px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.ttt-square.is-x .ttt-square-value {
+  color: var(--primary);
+}
+
+.ttt-square.is-o .ttt-square-value {
+  color: var(--accent);
+}
+
+.ttt-square.is-winning {
+  border-color: rgba(6, 182, 212, 0.55);
+  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.18);
+}
+
+/* Footer */
+.ttt-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 18px;
+}
+
+.ttt-reset {
+  appearance: none;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #0b1220;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.16), rgba(6, 182, 212, 0.12));
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.08s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.14);
+}
+
+.ttt-reset:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
+
+.ttt-reset:active {
+  transform: translateY(0px);
+}
+
+.ttt-reset:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus), 0 8px 18px rgba(59, 130, 246, 0.14);
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+  .ttt-card {
+    padding: 18px;
   }
-  to {
-    transform: rotate(360deg);
+  .ttt-title {
+    font-size: 26px;
   }
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .ttt-board {
+    gap: 10px;
+    padding: 10px;
   }
 }
